@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MFFGC</title>
+    <link rel="stylesheet" href="../static/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="heading">
+        <h1>MFFGC</h1>
+        <nav>
+          <ul>
+            <li><a href="#model">Go To Model</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="briefing">
+        <h3>About:</h3>
+        <p>
+          MFFGC is a Python Linear Regression or Machine Learning model which is
+          created to predict gear-up cost of any character.
+        </p>
+		<p><strong>Disclaimer:</strong> Please note one thing. Gear up in mff involves RNG. That means no one can accurately say how much any gear will cost. This model only makes prediction based on previous data given to it.</p>
+      </div>
+    </header>
+    <main>
+      <section id="model">
+        <h2 class="model-test-h">Test the Model</h2>
+        <form
+          id="prediction_form"
+          action="{{ url_for('predict') }}"
+          method="post"
+        >
+          <div class="input-pair">
+            <div class="form-element">
+              <label for="sex">Enter Current Sex :</label>
+              <select name="sex" id="sex">
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+                <option value="3">Other</option>
+              </select>
+            </div>
+            <div class="form-element">
+              <label for="native_sex">Enter Native Sex :</label>
+              <select name="native_sex" id="native_sex">
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+                <option value="3">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-pair">
+            <div class="form-element">
+              <label for="type">Enter Current Type :</label>
+              <select name="type" id="type">
+                <option value="1">Universal</option>
+                <option value="2">Blast</option>
+                <option value="3">Speed</option>
+                <option value="4">Combat</option>
+              </select>
+            </div>
+            <div class="form-element">
+              <label for="native_type">Enter Native Type :</label>
+              <select name="native_type" id="native_type">
+                <option value="1">Universal</option>
+                <option value="2">Blast</option>
+                <option value="3">Speed</option>
+                <option value="4">Combat</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-pair">
+            <div class="form-element">
+              <label for="side">Enter Current Side :</label>
+              <select name="side" id="side">
+                <option value="1">Villain</option>
+                <option value="2">Hero</option>
+                <option value="3">Other</option>
+              </select>
+            </div>
+            <div class="form-element">
+              <label for="native_side">Enter Native Side :</label>
+              <select name="native_side" id="native_side">
+                <option value="1">Villain</option>
+                <option value="2">Hero</option>
+                <option value="3">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-pair">
+            <div class="form-element">
+              <label for="native_tier">Enter Native Tier :</label>
+              <select
+                name="native_tier"
+                id="native_tier"
+                onchange="tierchanged()"
+              >
+                <option value="1">Tier 1</option>
+                <option value="2">Tier 2</option>
+                <!-- <option value="3">Tier 3</option> -->
+              </select>
+            </div>
+            <div class="form-element">
+              <label for="target_tier">Enter Target Tier :</label>
+              <select name="target_tier" id="target_tier">
+                <!-- <option value="1">Tier 1</option> -->
+                <option value="2.5">Transcended</option>
+                <option value="3">Tier 3</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-pair">
+            <div class="form-element">
+              <label for="is_premium">Is a premium Character :</label>
+              <input type="checkbox" name="is_premium" id="is_premium" />
+            </div>
+            <div class="form-element">
+              <label for="is_extra_cost">Is a extra cost:</label>
+              <input
+                type="checkbox"
+                name="is_extra_cost"
+                disabled
+                id="is_extra_cost"
+              />
+            </div>
+          </div>
+          <input type="submit" name="" id="submit_btn" value="Submit" />
+        </form>
+        <div id="output">
+          {% if predicted %}
+          <h3 class="output_title">Prediction</h3>
+          <p>Analyzing all the giver data, the prediction is -</p>
+          <div class="result">
+            <p>Your character might take total</p>
+            {% for i in range(0,4) %}
+            <p class="gear-cost">{{ result[i] }} upgrade for gear {{i+1}}</p>
+            {% endfor %} {% endif %}
+          </div>
+        </div>
+      </section>
+      <section id="contact">
+        <h2>Contact me here</h2>
+        <div class="all-acc-links">
+          <a
+            href="https://forum.netmarble.com/futurefight_en/profile/15420"
+            target="_blank"
+            class="acc-link"
+          >
+            <img
+              src="../static/marvelfuturefight.png"
+              class="icon mff-icon"
+              alt="mff logo"
+            />
+            <b>d shaw</b>
+          </a>
+          <a
+            href="https://www.youtube.com/@dshaw0004"
+            target="_blank"
+            class="acc-link"
+          >
+            <svg
+              viewBox="0 0 48 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon youtube-icon"
+            >
+              <circle cx="24" cy="24" r="20" fill="#FF0000" />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M35.3005 16.3781C35.6996 16.7772 35.9872 17.2739 36.1346 17.8187C36.9835 21.2357 36.7873 26.6324 36.1511 30.1813C36.0037 30.7261 35.7161 31.2228 35.317 31.6219C34.9179 32.021 34.4212 32.3086 33.8764 32.456C31.8819 33 23.8544 33 23.8544 33C23.8544 33 15.8269 33 13.8324 32.456C13.2876 32.3086 12.7909 32.021 12.3918 31.6219C11.9927 31.2228 11.7051 30.7261 11.5577 30.1813C10.7038 26.7791 10.9379 21.3791 11.5412 17.8352C11.6886 17.2903 11.9762 16.7936 12.3753 16.3945C12.7744 15.9954 13.2711 15.7079 13.8159 15.5604C15.8104 15.0165 23.8379 15 23.8379 15C23.8379 15 31.8654 15 33.8599 15.544C34.4047 15.6914 34.9014 15.979 35.3005 16.3781ZM27.9423 24L21.283 27.8571V20.1428L27.9423 24Z"
+                fill="white"
+              />
+            </svg>
+            <b>d shaw</b>
+          </a>
+          <a
+            href="https://github.com/dshaw0004"
+            target="_blank"
+            class="acc-link"
+          >
+            <svg
+              viewBox="0 0 20 20"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              class="icon github-icon"
+            >
+              <g
+                id="Page-1"
+                stroke="none"
+                stroke-width="1"
+                fill="none"
+                fill-rule="evenodd"
+              >
+                <g
+                  id="Dribbble-Light-Preview"
+                  transform="translate(-140.000000, -7559.000000)"
+                  fill="#000000"
+                >
+                  <g id="icons" transform="translate(56.000000, 160.000000)">
+                    <path
+                      d="M94,7399 C99.523,7399 104,7403.59 104,7409.253 C104,7413.782 101.138,7417.624 97.167,7418.981 C96.66,7419.082 96.48,7418.762 96.48,7418.489 C96.48,7418.151 96.492,7417.047 96.492,7415.675 C96.492,7414.719 96.172,7414.095 95.813,7413.777 C98.04,7413.523 100.38,7412.656 100.38,7408.718 C100.38,7407.598 99.992,7406.684 99.35,7405.966 C99.454,7405.707 99.797,7404.664 99.252,7403.252 C99.252,7403.252 98.414,7402.977 96.505,7404.303 C95.706,7404.076 94.85,7403.962 94,7403.958 C93.15,7403.962 92.295,7404.076 91.497,7404.303 C89.586,7402.977 88.746,7403.252 88.746,7403.252 C88.203,7404.664 88.546,7405.707 88.649,7405.966 C88.01,7406.684 87.619,7407.598 87.619,7408.718 C87.619,7412.646 89.954,7413.526 92.175,7413.785 C91.889,7414.041 91.63,7414.493 91.54,7415.156 C90.97,7415.418 89.522,7415.871 88.63,7414.304 C88.63,7414.304 88.101,7413.319 87.097,7413.247 C87.097,7413.247 86.122,7413.234 87.029,7413.87 C87.029,7413.87 87.684,7414.185 88.139,7415.37 C88.139,7415.37 88.726,7417.2 91.508,7416.58 C91.513,7417.437 91.522,7418.245 91.522,7418.489 C91.522,7418.76 91.338,7419.077 90.839,7418.982 C86.865,7417.627 84,7413.783 84,7409.253 C84,7403.59 88.478,7399 94,7399"
+                      id="github-[#142]"
+                    ></path>
+                  </g>
+                </g>
+              </g>
+            </svg>
+            <b>dshaw0004</b>
+          </a>
+          <a
+            href="https://twitter.com/dshaw0004"
+            target="_blank"
+            class="acc-link"
+          >
+            <svg
+              fill="#0055ff"
+              class="icon twitter-icon"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              viewBox="-143 145 512 512"
+              xml:space="preserve"
+            >
+              <g>
+                <path
+                  d="M113,145c-141.4,0-256,114.6-256,256s114.6,256,256,256s256-114.6,256-256S254.4,145,113,145z M272.8,560.7
+		c-20.8,20.8-44.9,37.1-71.8,48.4c-27.8,11.8-57.4,17.7-88,17.7c-30.5,0-60.1-6-88-17.7c-26.9-11.4-51.1-27.7-71.8-48.4
+		c-20.8-20.8-37.1-44.9-48.4-71.8C-107,461.1-113,431.5-113,401s6-60.1,17.7-88c11.4-26.9,27.7-51.1,48.4-71.8
+		c20.9-20.8,45-37.1,71.9-48.5C52.9,181,82.5,175,113,175s60.1,6,88,17.7c26.9,11.4,51.1,27.7,71.8,48.4
+		c20.8,20.8,37.1,44.9,48.4,71.8c11.8,27.8,17.7,57.4,17.7,88c0,30.5-6,60.1-17.7,88C309.8,515.8,293.5,540,272.8,560.7z"
+                />
+                <path
+                  d="M234.3,313.1c-10.2,6-21.4,10.4-33.4,12.8c-9.6-10.2-23.3-16.6-38.4-16.6c-29,0-52.6,23.6-52.6,52.6c0,4.1,0.4,8.1,1.4,12
+		c-43.7-2.2-82.5-23.1-108.4-55c-4.5,7.8-7.1,16.8-7.1,26.5c0,18.2,9.3,34.3,23.4,43.8c-8.6-0.3-16.7-2.7-23.8-6.6v0.6
+		c0,25.5,18.1,46.8,42.2,51.6c-4.4,1.2-9.1,1.9-13.9,1.9c-3.4,0-6.7-0.3-9.9-0.9c6.7,20.9,26.1,36.1,49.1,36.5
+		c-18,14.1-40.7,22.5-65.3,22.5c-4.2,0-8.4-0.2-12.6-0.7c23.3,14.9,50.9,23.6,80.6,23.6c96.8,0,149.7-80.2,149.7-149.7
+		c0-2.3,0-4.6-0.1-6.8c10.3-7.5,19.2-16.7,26.2-27.3c-9.4,4.2-19.6,7-30.2,8.3C222.1,335.7,230.4,325.4,234.3,313.1z"
+                />
+              </g>
+            </svg>
+            <b>dshaw0004</b>
+          </a>
+        </div>
+      </section>
+    </main>
+    <script>
+      function tierchanged() {
+        const native_tier = document.getElementById("native_tier").value;
+        if (native_tier >= 2) {
+          document.getElementById("is_extra_cost").removeAttribute("disabled");
+        } else {
+          document
+            .getElementById("is_extra_cost")
+            .setAttribute("disabled", "true");
+          document.getElementById("is_extra_cost").checked = false;
+        }
+      }
+    </script>
+  </body>
+</html>
