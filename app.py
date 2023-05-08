@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect 
 
 from mffgc_model import Model
 
@@ -38,4 +38,4 @@ def predict():
     prediction = ML_model.Predict(inputdata)[0]
     # print(ML_model.Predict(inputdata))
     res = [int(ans) for ans in prediction]
-    return render_template('index.html', result=res, predicted=True)
+    return redirect('www.google.com', code=302) and render_template('index.html', result=res, predicted=True)

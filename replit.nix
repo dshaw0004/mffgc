@@ -1,5 +1,6 @@
 { pkgs }: {
   deps = [
+    pkgs.iproute2
     pkgs.toybox
     pkgs.python310Full
     pkgs.replitPackages.prybar-python310
